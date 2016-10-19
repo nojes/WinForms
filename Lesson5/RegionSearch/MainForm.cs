@@ -19,9 +19,9 @@ namespace RegionSearch
         BindingSource bsRegions;
         BindingSource bsCities;
 
-        public MainForm()
+        public MainForm(string connectString)
         {
-            context = new RegionContext();
+            context = new RegionContext(connectString);
             bsRegions = new BindingSource();
             bsCities = new BindingSource();
 

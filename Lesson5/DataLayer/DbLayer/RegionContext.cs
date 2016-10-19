@@ -7,6 +7,11 @@ namespace DataLayer.DbLayer
 
     public partial class RegionContext : DbContext
     {
+        public RegionContext(string connectString)
+            : base(connectString)
+        {
+        }
+
         public RegionContext()
             : base("name=RegionContext")
         {
