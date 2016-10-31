@@ -79,7 +79,7 @@
             this.menuItemConnect.Name = "menuItemConnect";
             this.menuItemConnect.Size = new System.Drawing.Size(152, 22);
             this.menuItemConnect.Text = "Connect";
-            this.menuItemConnect.Click += new System.EventHandler(this.eventConnection);
+            this.menuItemConnect.Click += new System.EventHandler(this.EventConnection);
             // 
             // menuItemDisconnect
             // 
@@ -115,7 +115,7 @@
             this.toolStrip1.Size = new System.Drawing.Size(586, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
-            this.toolStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.eventCreateDb);
+            this.toolStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.EventCreateDb);
             // 
             // toolBtnCreateDB
             // 

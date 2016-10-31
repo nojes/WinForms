@@ -22,7 +22,7 @@ namespace SQLiteManager
             InitializeComponent();
         }
 
-        private void eventCreateDb(object sender, EventArgs eventArgs)
+        private void EventCreateDb(object sender, EventArgs eventArgs)
         {
             var saveFileDialog = new SaveFileDialog();
             if (saveFileDialog.ShowDialog() != DialogResult.OK) return;
@@ -33,11 +33,11 @@ namespace SQLiteManager
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            menuItemCreate.Click += eventCreateDb;
-            toolBtnCreateDB.Click += eventCreateDb;
+            menuItemCreate.Click += EventCreateDb;
+            toolBtnCreateDB.Click += EventCreateDb;
         }
 
-        private void eventConnection(object sender, EventArgs e)
+        private void EventConnection(object sender, EventArgs e)
         {
             var openFileDialog = new OpenFileDialog {
                 Filter = @"SQL Database(*.db)|*.db|All Files(*.*)|*.*"
