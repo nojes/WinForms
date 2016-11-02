@@ -90,7 +90,7 @@ namespace _01_InformationSchema
 //            dgvTables.Update();
 //            bsTables.DataSource = dgvTables.DataSource;
 
-            DataRowView dataRowTable = dgvTables.SelectedRows[0] as DataRowView;
+            DataRowView dataRowTable = bsTables.Current as DataRowView;
 
             if (tabControlData.SelectedTab.Name == tabPageColumns.Name)
             {
