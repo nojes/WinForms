@@ -16,9 +16,25 @@ namespace SQLiteManager
     {
         public List<string> listDbPath;
 
+        public List<DatabaseFile> databases;
+        public DatabaseFile currentDbFile;
+
+        private string connectionString;
+
+        private DataTable tables;
+        private DataTable columns;
+
         public FormMain()
         {
             listDbPath = new List<string>();
+            currentDbFile = new DatabaseFile();
+            databases = new List<DatabaseFile>();
+
+            tables = new DataTable();
+            columns = new DataTable();
+
+            renderTree();
+
             InitializeComponent();
         }
 
@@ -42,28 +58,51 @@ namespace SQLiteManager
             var openFileDialog = new OpenFileDialog {
                 Filter = @"SQL Database(*.db)|*.db|All Files(*.*)|*.*"
             };
-            if (openFileDialog.ShowDialog() != DialogResult.OK) return;
 
-            var connectionString = $"Data Source={openFileDialog.FileName}; Version=3";
-            var connection = new SQLiteConnection(connectionString);
-            try
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                connectionString = $"Data Source={openFileDialog.FileName}; Version=3";
+                try
+                {
+                    if (openFileDialog.FileName != null) {
+                        var dbFile = new DatabaseFile(openFileDialog.FileName);
+                        databases.Add(dbFile);
+                        currentDbFile = dbFile;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, $"Connection to \"{openFileDialog.FileName}\" is failed.");
+                }
+            }
+
+            GetSchema();
+
+            renderTree();
+            renderToolstrip();
+        }
+
+        private void renderTree()
+        {
+            TreeNode treeNode = new TreeNode("test");
+
+//            treeDatabases.Nodes.Add(treeNode);
+        }
+
+        private void renderToolstrip()
+        {
+            toolStripSelectedDB.Items.Add(currentDbFile.fileName);
+            toolStripSelectedDB.SelectedItem = currentDbFile.fileName;
+        }
+
+        private void GetSchema()
+        {
+            using (var connection = new SQLiteConnection())
+            {
+                connection.ConnectionString = connectionString;
                 connection.Open();
-                if (openFileDialog.FileName == null) return;
-
-                string fileName = Path.GetFileName(openFileDialog.FileName);
-                listDbPath.Add(openFileDialog.FileName);
-
-                toolStripSelectedDB.Items.Add(fileName);
-                toolStripSelectedDB.SelectedItem = fileName;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, $"Connection to \"{openFileDialog.FileName}\" is failed.");
-            }
-            finally
-            {
-                connection.Close();
+                tables = connection.GetSchema("Tables");
+                columns = connection.GetSchema("Columns");
             }
         }
 
